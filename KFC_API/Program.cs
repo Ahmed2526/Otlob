@@ -27,6 +27,7 @@ namespace KFC_API
 
             //Di
             builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+            builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 
             var app = builder.Build();
@@ -38,7 +39,7 @@ namespace KFC_API
                 app.UseSwaggerUI();
             }
 
-            //Seed init Products.
+            //Seed initial Products.
             var scopeFactory = app.Services.GetRequiredService<IServiceScopeFactory>();
             using var scope = scopeFactory.CreateScope();
             var AppDbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
