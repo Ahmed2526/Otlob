@@ -1,21 +1,15 @@
-﻿using BLL.Interfaces;
+﻿using BLL.IRepository;
 using DAL.Data;
 using DAL.Entities.baseEntity;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BLL.Repositories
 {
-    public class Repository<T> : IRepository<T> where T : BaseEntity
+    public class BaseRepository<T> : IBaseRepository<T> where T : BaseEntity
     {
         private readonly ApplicationDbContext _context;
 
-        public Repository(ApplicationDbContext context)
+        public BaseRepository(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -52,12 +46,6 @@ namespace BLL.Repositories
                     query = query.Include(include);
 
             return await query.FirstOrDefaultAsync();
-        }
-
-
-        public int SaveChanges()
-        {
-            return _context.SaveChanges();
         }
 
     }

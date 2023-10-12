@@ -1,78 +1,64 @@
 ﻿using AutoMapper;
-using BLL.Interfaces;
+using BLL.IRepository;
+using BLL.IService;
 using DAL.Consts;
 using DAL.Dto_s;
 using DAL.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Otlob_API.ErrorModel;
+using System.Net;
 
 namespace Otlob_API.Controllers
 {
     public class ProductsController : BaseApiController
     {
-        private readonly IRepository<Product> _Prodrepo;
+        private readonly IProductService _productService;
         private readonly IMapper _mapper;
+        private readonly ILoggerManager _logger;
 
-        public ProductsController(IRepository<Product> repository, IMapper mapper)
+        public ProductsController(IProductService productService, IMapper mapper, ILoggerManager loggerManager)
         {
-            _Prodrepo = repository;
+            _productService = productService;
             _mapper = mapper;
+            _logger = loggerManager;
         }
 
         [HttpGet("GetAll")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
         public async Task<ActionResult> GetProducts()
         {
-            var products = await _Prodrepo.GetAllWithSpecAsync(new string[] { Entity.ProductBrand, Entity.ProductType });
+            var products = await _productService.GetProducts();
 
             if (products is null)
-                return NotFound();
+                return NotFound(new ApiResponse((int)HttpStatusCode.NotFound));
 
-            #region ManualMapping
-            //var productDTo = products.Select(e => new productDto
-            //{
-            //    Id = e.Id,
-            //    Name = e.Name,
-            //    Description = e.Description,
-            //    PictureUrl = e.PictureUrl,
-            //    Price = e.Price,
-            //    ProductBrand = e.ProductBrand!.Name,
-            //    ProductType = e.ProductType!.Name
-            //});
-            #endregion
-
-            var productDTo = _mapper.Map<List<productDto>>(products);
-
-            return Ok(productDTo);
+            return Ok(products);
         }
 
         [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse),StatusCodes.Status404NotFound)]
         public async Task<ActionResult> GetProduct(int id)
         {
-            var product = await _Prodrepo.GetByIdAsync(id, new string[] { Entity.ProductBrand, Entity.ProductType });
+            var product = await _productService.GetProduct(id);
 
             if (product is null)
-                return NotFound();
+                return NotFound(new ApiResponse((int)HttpStatusCode.NotFound));
 
-            #region ManualMapping
-            //var productDto = new productDto()
-            //{
-            //    Id = product.Id,
-            //    Name = product.Name,
-            //    Description = product.Description,
-            //    PictureUrl = product.PictureUrl,
-            //    Price = product.Price,
-            //    ProductBrand = product.ProductBrand!.Name,
-            //    ProductType = product.ProductType!.Name
-            //};
-            #endregion
-
-            var productDto = _mapper.Map<productDto>(product);
-
-            return Ok(productDto);
+            return Ok(product);
         }
 
+        [HttpGet("error/{id}")]
+        public ActionResult GetError(int id)
+        {
 
+            var atat = "ss";
+            int ota = int.Parse(atat);
 
+            return Ok();
+        }
 
     }
 }
