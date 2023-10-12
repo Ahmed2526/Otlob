@@ -1,10 +1,5 @@
 ﻿using AutoMapper;
-using BLL.IRepository;
 using BLL.IService;
-using DAL.Consts;
-using DAL.Dto_s;
-using DAL.Entities;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Otlob_API.ErrorModel;
 using System.Net;
@@ -37,9 +32,18 @@ namespace Otlob_API.Controllers
             return Ok(products);
         }
 
+        [HttpGet("GetAllWithSpecs")]
+        public async Task<ActionResult> GetProducts(int? pageIndex, int? pageSize, int? typeId, int? brandId, string orderBy, string direction)
+        {
+            var products = await _productService.GetProducts(pageIndex, pageSize, typeId, brandId, orderBy, direction);
+
+            if (products is null)
+                return NotFound(new ApiResponse((int)HttpStatusCode.NotFound));
+
+            return Ok(products);
+        }
+
         [HttpGet("{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ApiResponse),StatusCodes.Status404NotFound)]
         public async Task<ActionResult> GetProduct(int id)
         {
             var product = await _productService.GetProduct(id);

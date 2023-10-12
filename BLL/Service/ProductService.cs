@@ -3,12 +3,6 @@ using BLL.IRepository;
 using BLL.IService;
 using DAL.Consts;
 using DAL.Dto_s;
-using DAL.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BLL.Service
 {
@@ -45,6 +39,28 @@ namespace BLL.Service
                 throw;
             }
         }
+        public async Task<IEnumerable<productDto>> GetProducts(int? pageIndex, int? pageSize, int? typeId, int? brandId, string orderBy, string direction)
+        {
+            try
+            {
+                var products = await _unitOfWork.Products.GetAllWithSpec(pageIndex, pageSize, typeId, brandId, orderBy, direction, new string[] { Entity.ProductBrand, Entity.ProductType });
+
+                if (products is null)
+                    return null;
+
+                var productDTo = _mapper.Map<List<productDto>>(products);
+
+                return productDTo;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Something went wrong in the" +
+                   $" {nameof(ProductService)} in {nameof(GetProducts)} method {ex}");
+                throw;
+            }
+
+        }
+
         public async Task<productDto> GetProduct(int id)
         {
             try

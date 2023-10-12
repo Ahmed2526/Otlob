@@ -1,9 +1,9 @@
-﻿using DAL.Data.SeedData;
-using DAL.Data;
-using BLL.IRepository;
-using BLL.Repositories;
+﻿using BLL.IRepository;
 using BLL.IService;
+using BLL.Repositories;
 using BLL.Service;
+using DAL.Data;
+using DAL.Data.SeedData;
 using Microsoft.AspNetCore.Mvc;
 using Otlob_API.ErrorModel;
 

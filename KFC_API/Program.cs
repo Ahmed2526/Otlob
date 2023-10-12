@@ -1,12 +1,7 @@
-using BLL.IRepository;
-using BLL.Repositories;
 using DAL.Data;
-using DAL.Data.SeedData;
 using Microsoft.AspNetCore.HttpOverrides;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NLog;
-using Otlob_API.ErrorModel;
 using Otlob_API.Extensions;
 using Otlob_API.Middlewares;
 
@@ -52,7 +47,7 @@ namespace KFC_API
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
-             //   app.UseDeveloperExceptionPage();
+                //   app.UseDeveloperExceptionPage();
             }
             else
                 app.UseHsts();

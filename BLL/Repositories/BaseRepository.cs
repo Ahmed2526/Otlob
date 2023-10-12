@@ -2,6 +2,7 @@
 using DAL.Data;
 using DAL.Entities.baseEntity;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Dynamic.Core;
 
 namespace BLL.Repositories
 {
@@ -25,6 +26,20 @@ namespace BLL.Repositories
         public async Task<IEnumerable<T>> GetAllWithSpecAsync(string[] includes = null)
         {
             IQueryable<T> query = _context.Set<T>();
+
+            if (includes != null)
+                foreach (var include in includes)
+                    query = query.Include(include);
+
+            return await query.ToListAsync();
+        }
+
+        public async Task<IEnumerable<T>> GetAllWithSpecOrderedAsync(string orderBy, string direction, string[] includes = null)
+        {
+            IQueryable<T> query = _context.Set<T>();
+
+            if (!string.IsNullOrEmpty(orderBy))
+                query = query.OrderBy($"{orderBy} {direction}");
 
             if (includes != null)
                 foreach (var include in includes)

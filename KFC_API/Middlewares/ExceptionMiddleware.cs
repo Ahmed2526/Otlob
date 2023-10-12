@@ -1,5 +1,4 @@
 ﻿using BLL.IService;
-using BLL.Service;
 using Otlob_API.ErrorModel;
 using System.Net;
 using System.Text.Json;
@@ -43,7 +42,7 @@ namespace Otlob_API.Middlewares
                     WriteIndented = true
                 };
 
-                var json = JsonSerializer.Serialize(responseMessage,serializeOptions);
+                var json = JsonSerializer.Serialize(responseMessage, serializeOptions);
                 await context.Response.WriteAsync(json);
             }
         }

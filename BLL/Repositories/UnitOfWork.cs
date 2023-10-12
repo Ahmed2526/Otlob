@@ -1,18 +1,13 @@
 ﻿using BLL.IRepository;
 using DAL.Data;
 using DAL.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BLL.Repositories
 {
     public class UnitOfWork : IUnitOfWork
     {
         private readonly ApplicationDbContext _context;
-        public IBaseRepository<Product> Products { get; private set; }
+        public IProductRepository Products { get; private set; }
         public IBaseRepository<ProductType> ProductTypes { get; private set; }
         public IBaseRepository<ProductBrand> ProductBrands { get; private set; }
 
@@ -20,7 +15,7 @@ namespace BLL.Repositories
         {
             _context = context;
 
-            Products = new BaseRepository<Product>(_context);
+            Products = new ProductRepository(_context);
             ProductTypes = new BaseRepository<ProductType>(_context);
             ProductBrands = new BaseRepository<ProductBrand>(_context);
         }

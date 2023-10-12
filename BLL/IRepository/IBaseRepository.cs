@@ -9,5 +9,7 @@ namespace BLL.IRepository
         IEnumerable<T> GetAll();
         Task<IEnumerable<T>> GetAllAsync();
         Task<IEnumerable<T>> GetAllWithSpecAsync(string[] includes = null);
+        Task<IEnumerable<T>> GetAllWithSpecOrderedAsync(string orderBy, string direction, string[] includes = null);
+
     }
 }
