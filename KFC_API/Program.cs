@@ -1,5 +1,8 @@
 using DAL.Data;
+using DAL.Entities.Identity;
+using DAL.Identity;
 using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using NLog;
 using Otlob_API.Extensions;
@@ -22,6 +25,14 @@ namespace KFC_API
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(connectionString));
+
+            //Identity
+            builder.Services.AddDbContext<AppIdentityDbContext>(options =>
+               options.UseSqlServer(builder.Configuration.GetConnectionString("IdentityDbConnection")));
+
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = false)
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -62,6 +73,7 @@ namespace KFC_API
 
             app.UseCors("CorsPolicy");
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllers();

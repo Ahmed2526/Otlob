@@ -33,9 +33,9 @@ namespace Otlob_API.Controllers
         }
 
         [HttpGet("GetAllWithSpecs")]
-        public async Task<ActionResult> GetProducts(int? pageIndex, int? pageSize, int? typeId, int? brandId, string orderBy, string direction)
+        public async Task<ActionResult> GetProducts(string? search, int? pageIndex, int? pageSize, int? typeId, int? brandId, string? orderBy, string? direction)
         {
-            var products = await _productService.GetProducts(pageIndex, pageSize, typeId, brandId, orderBy, direction);
+            var products = await _productService.GetProducts(search, pageIndex, pageSize, typeId, brandId, orderBy, direction);
 
             if (products is null)
                 return NotFound(new ApiResponse((int)HttpStatusCode.NotFound));

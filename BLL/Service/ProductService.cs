@@ -39,18 +39,26 @@ namespace BLL.Service
                 throw;
             }
         }
-        public async Task<IEnumerable<productDto>> GetProducts(int? pageIndex, int? pageSize, int? typeId, int? brandId, string orderBy, string direction)
+        public async Task<Pagination<productDto>> GetProducts(string search, int? pageIndex, int? pageSize, int? typeId, int? brandId, string orderBy, string direction)
         {
             try
             {
-                var products = await _unitOfWork.Products.GetAllWithSpec(pageIndex, pageSize, typeId, brandId, orderBy, direction, new string[] { Entity.ProductBrand, Entity.ProductType });
+                var products = await _unitOfWork.Products.GetAllWithSpec(search, pageIndex, pageSize, typeId, brandId, orderBy, direction, new string[] { Entity.ProductBrand, Entity.ProductType });
 
                 if (products is null)
                     return null;
 
-                var productDTo = _mapper.Map<List<productDto>>(products);
+                var productDTo = _mapper.Map<List<productDto>>(products.data);
 
-                return productDTo;
+                var result = new Pagination<productDto>()
+                {
+                    pageIndex = products.pageIndex,
+                    pageSize = products.pageSize,
+                    count = products.count,
+                    data = productDTo
+                };
+
+                return result;
             }
             catch (Exception ex)
             {

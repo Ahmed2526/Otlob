@@ -1,4 +1,5 @@
-﻿using DAL.Entities;
+﻿using DAL.Data.Config;
+using DAL.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
@@ -16,10 +17,11 @@ namespace DAL.Data
             base.OnModelCreating(modelBuilder);
 
             //Applies all the configurations automatically
-            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+            //  modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
-
-            // modelBuilder.ApplyConfiguration(new ProductConfiguration());
+            modelBuilder.ApplyConfiguration(new ProductConfiguration());
+            modelBuilder.ApplyConfiguration(new ProductBrandsConfiguration());
+            modelBuilder.ApplyConfiguration(new ProductTypesConfiguration());
         }
 
         public DbSet<Product> Products { get; set; }
