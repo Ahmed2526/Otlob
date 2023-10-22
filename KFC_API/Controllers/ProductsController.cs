@@ -1,11 +1,13 @@
 ﻿using AutoMapper;
 using BLL.IService;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Otlob_API.ErrorModel;
 using System.Net;
 
 namespace Otlob_API.Controllers
 {
+    [Authorize]
     public class ProductsController : BaseApiController
     {
         private readonly IProductService _productService;

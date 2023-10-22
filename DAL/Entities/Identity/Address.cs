@@ -10,10 +10,6 @@ namespace DAL.Entities.Identity
 {
     public class Address : BaseEntity
     {
-        public string UserId { get; set; } = null!;
-
-        [ForeignKey("UserId")]
-        public ApplicationUser? User { get; set; }
         public string Country { get; set; } = null!;
         public string City { get; set; } = null!;
         public string Street { get; set; } = null!;

@@ -13,16 +13,6 @@ namespace Otlob_API.ErrorModel
             Message = message ?? GetDefaultMessageForStatusCode(statusCode);
         }
 
-        public override string ToString()
-        {
-            var serializeOptions = new JsonSerializerOptions
-            {
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-                WriteIndented = true
-            };
-            return JsonSerializer.Serialize(this, serializeOptions);
-        }
-
         private string GetDefaultMessageForStatusCode(int statusCode)
            => statusCode switch
            {
@@ -33,5 +23,14 @@ namespace Otlob_API.ErrorModel
                _ => string.Empty
            };
 
+        public override string ToString()
+        {
+            var serializeOptions = new JsonSerializerOptions
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                WriteIndented = true
+            };
+            return JsonSerializer.Serialize(this, serializeOptions);
+        }
     }
 }

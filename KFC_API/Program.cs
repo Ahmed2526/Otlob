@@ -31,13 +31,15 @@ namespace KFC_API
                options.UseSqlServer(builder.Configuration.GetConnectionString("IdentityDbConnection")));
 
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = false)
-                .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();
+                .AddEntityFrameworkStores<AppIdentityDbContext>();
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            //Configure jwt
+            builder.Services.ConfigureJWT(builder.Configuration);
 
             //register Services
             builder.Services.registerServices();
@@ -48,6 +50,8 @@ namespace KFC_API
             //invalid model state handling
             builder.Services.ConfigureInvalidModelStateResponse();
 
+            //Mapping from appsettings to class
+            builder.Services.Configure<JWT>(builder.Configuration.GetSection("JWT"));
 
             var app = builder.Build();
 
@@ -79,7 +83,8 @@ namespace KFC_API
             app.MapControllers();
 
             //Seed initial Products.
-            await ServiceExtensions.SeedProducts(app);
+            await SeedsExtension.SeedProducts(app);
+            await SeedsExtension.SeedUsers(app);
 
             app.Run();
         }
