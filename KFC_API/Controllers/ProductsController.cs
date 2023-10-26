@@ -56,15 +56,5 @@ namespace Otlob_API.Controllers
             return Ok(product);
         }
 
-        [HttpGet("error/{id}")]
-        public ActionResult GetError(int id)
-        {
-
-            var atat = "ss";
-            int ota = int.Parse(atat);
-
-            return Ok();
-        }
-
     }
 }

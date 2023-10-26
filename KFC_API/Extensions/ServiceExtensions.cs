@@ -2,15 +2,11 @@
 using BLL.IService;
 using BLL.Repositories;
 using BLL.Service;
-using DAL.Data;
-using DAL.Data.SeedData;
-using DAL.Entities.Identity;
-using DAL.Identity.SeedData;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Otlob_API.ErrorModel;
+using Otlob_API.Formatters;
 using System.Text;
 
 namespace Otlob_API.Extensions
@@ -59,7 +55,7 @@ namespace Otlob_API.Extensions
                         ValidateIssuer = true,
                         ValidateAudience = true,
                         ValidateLifetime = true,
-                        ClockSkew=TimeSpan.FromMinutes(5),
+                        ClockSkew = TimeSpan.FromMinutes(5),
                         ValidIssuer = Configuration["JWT:Issuer"],
                         ValidAudience = Configuration["JWT:Audience"],
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWT:Key"]))
@@ -83,6 +79,14 @@ namespace Otlob_API.Extensions
             });
 
         }
+
+        //Custom Formatter
+        public static IMvcBuilder AddCustomCSVFormatter(this IMvcBuilder builder)
+        {
+            return builder.AddMvcOptions(config =>
+            config.OutputFormatters.Add(new ProductCsvOutputFormatter()));
+        }
+
 
     }
 }

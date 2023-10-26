@@ -1,7 +1,7 @@
 ﻿using DAL.Entities.Identity;
+using DAL.Identity.Config;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using DAL.Identity.Config;
 
 namespace DAL.Identity
 {
@@ -9,7 +9,7 @@ namespace DAL.Identity
     {
         public AppIdentityDbContext(DbContextOptions<AppIdentityDbContext> options) : base(options)
         {
-            
+
         }
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -17,7 +17,11 @@ namespace DAL.Identity
 
             builder.ApplyConfiguration(new AddressConfiguration());
             builder.ApplyConfiguration(new ApplicationUserConfiguration());
+
+            builder.Entity<ApplicationUser>().HasMany(e => e.RefreshTokens)
+                .WithOne(e => e.ApplicationUser);
         }
         public DbSet<Address> Addresses { get; set; }
+        public DbSet<RefreshToken> RefreshTokens { get; set; }
     }
 }

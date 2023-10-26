@@ -7,6 +7,7 @@
         public const string PasswordMisMatch = "The password and confirmation password do not match.";
         public const string PasswordPattern = "Password Must have minimum 6 characters with At least 1 uppercase and 1 lowercase English letter and 1 digit and 1 special character.";
         public const string Email = "Invalid Email.";
+        public const string EmailExist = "this email is already registered.";
         public const string Phone = "Invalid Egy Number Format.";
         public const string NumbersOnly = "Only Numbers allowed.";
         public const string EnglishLettersOnly = "Only english letters allowed.";
@@ -17,6 +18,9 @@
         public const string InvalidUserId = "Invalid UserId!";
         public const string InvalidNationalNumber = "Invalid egy national ID";
         public const string InvalidPostalNumber = "Incorrect postal number.";
+        public const string InvalidToken = "Invalid Token";
+        public const string InvalidRefreshToken = "Invalid RefreshToken";
+
 
 
     }

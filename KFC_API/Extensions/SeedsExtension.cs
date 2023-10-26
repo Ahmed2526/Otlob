@@ -1,5 +1,5 @@
-﻿using DAL.Data.SeedData;
-using DAL.Data;
+﻿using DAL.Data;
+using DAL.Data.SeedData;
 using DAL.Entities.Identity;
 using DAL.Identity.SeedData;
 using Microsoft.AspNetCore.Identity;

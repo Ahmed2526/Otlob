@@ -1,14 +1,5 @@
-﻿using DAL.Data;
-using DAL.Entities;
-using DAL.Entities.Identity;
+﻿using DAL.Entities.Identity;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace DAL.Identity.SeedData
 {

@@ -1,9 +1,6 @@
 ﻿using DAL.Dto_s;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using DAL.Entities.Identity;
+using System.Security.Claims;
 
 namespace BLL.IService
 {
@@ -11,6 +8,9 @@ namespace BLL.IService
     {
         Task<CommonApiResponse<UserDto>> Login(LoginDto loginCredentials);
         Task<CommonApiResponse<UserDto>> Register(RegisterDto registerCredentials);
+        Task<CommonApiResponse<UserAccountDto>> GetCurrentUser(ClaimsPrincipal userClaims);
+        Task<CommonApiResponse<UserDto>> RenewToken(string expiredToken, string refreshToken);
+        Task<CommonApiResponse<UserDto>> RevokeToken(string refreshToken);
 
     }
 }
