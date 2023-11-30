@@ -7,7 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Otlob_API.ErrorModel;
 using Otlob_API.Formatters;
+using StackExchange.Redis;
 using System.Text;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace Otlob_API.Extensions
 {
@@ -24,7 +26,16 @@ namespace Otlob_API.Extensions
             //Register Services
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<ICartRepository, CartRepository>();
+        }
 
+        public static void ConfigureRedis(this WebApplicationBuilder builder)
+        {
+            builder.Services.AddSingleton<IConnectionMultiplexer>(s =>
+            {
+                var connection = ConfigurationOptions.Parse(builder.Configuration.GetConnectionString("Redis"));
+                return ConnectionMultiplexer.Connect(connection);
+            });
         }
 
         public static void ConfigureCors(this IServiceCollection services)

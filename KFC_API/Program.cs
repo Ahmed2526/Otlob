@@ -54,6 +54,9 @@ namespace KFC_API
             //register Services
             builder.Services.registerServices();
 
+            //Configure Redis
+            builder.ConfigureRedis();
+
             //CORS Policy
             builder.Services.ConfigureCors();
 

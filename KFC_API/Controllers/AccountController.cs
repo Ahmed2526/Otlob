@@ -13,6 +13,7 @@ namespace Otlob_API.Controllers
         {
             _userService = userService;
         }
+
         [HttpPost("register")]
         public async Task<ActionResult> Register(RegisterDto registerCredentials)
         {
@@ -67,7 +68,7 @@ namespace Otlob_API.Controllers
             return Ok(result);
         }
 
-        [HttpGet("RevokeToken")]
+        [HttpPost("RevokeToken")]
         public async Task<ActionResult> RevokeToken()
         {
             string refreshToken = Request.Cookies["refreshToken"]!;
